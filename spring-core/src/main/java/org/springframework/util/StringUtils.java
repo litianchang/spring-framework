@@ -613,6 +613,8 @@ public abstract class StringUtils {
 	}
 
 	/**
+	 * 在当前的path下，拼一个在该path下的文件路径
+	 *
 	 * Apply the given relative path to the given Java resource path,
 	 * assuming standard Java folder separation (i.e. "/" separators).
 	 * @param path the path to start from (usually a full file path)

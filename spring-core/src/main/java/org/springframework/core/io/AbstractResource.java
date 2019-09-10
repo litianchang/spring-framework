@@ -31,6 +31,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 
 /**
+ * Resource接口的默认抽象实现，实现了Resource接口的大部分公共实现，如果实现Resource，
+ * 继承AbstractResource即可
+ *
  * Convenience base class for {@link Resource} implementations,
  * pre-implementing typical behavior.
  *
@@ -44,6 +47,8 @@ import org.springframework.util.ResourceUtils;
 public abstract class AbstractResource implements Resource {
 
 	/**
+	 * 判断文件是否存在
+	 *
 	 * This implementation checks whether a File can be opened,
 	 * falling back to whether an InputStream can be opened.
 	 * This will cover both directories and content resources.
@@ -116,6 +121,8 @@ public abstract class AbstractResource implements Resource {
 	}
 
 	/**
+	 * 由子类去实现
+	 *
 	 * This implementation throws a FileNotFoundException, assuming
 	 * that the resource cannot be resolved to an absolute file path.
 	 */
@@ -136,6 +143,8 @@ public abstract class AbstractResource implements Resource {
 	}
 
 	/**
+	 * 会读取该资源，将该资源完整的读一遍判断长度
+	 *
 	 * This implementation reads the entire InputStream to calculate the
 	 * content length. Subclasses will almost always be able to provide
 	 * a more optimal version of this, e.g. checking a File length.
@@ -191,6 +200,8 @@ public abstract class AbstractResource implements Resource {
 	}
 
 	/**
+	 * 由子类去实现
+	 *
 	 * This implementation throws a FileNotFoundException, assuming
 	 * that relative resources cannot be created for this resource.
 	 */

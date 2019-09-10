@@ -37,6 +37,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 用于处理文件系统文件的Resource实现
+ *
  * {@link Resource} implementation for {@code java.io.File} and
  * {@code java.nio.file.Path} handles with a file system target.
  * Supports resolution as a {@code File} and also as a {@code URL}.
@@ -65,6 +67,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 
 
 	/**
+	 * 根据path创建一个File文件
+	 *
 	 * Create a new {@code FileSystemResource} from a file path.
 	 * <p>Note: When building relative resources via {@link #createRelative},
 	 * it makes a difference whether the specified resource base path here
@@ -236,6 +240,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	}
 
 	/**
+	 * 获取nio的读channel
+	 *
 	 * This implementation opens a FileChannel for the underlying file.
 	 * @see java.nio.channels.FileChannel
 	 */
@@ -250,6 +256,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	}
 
 	/**
+	 * 获取nio的写channel
+	 *
 	 * This implementation opens a FileChannel for the underlying file.
 	 * @see java.nio.channels.FileChannel
 	 */
@@ -300,6 +308,8 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	}
 
 	/**
+	 * 根据一个相对路径，创建一个在当前Resource的路径下的Resouce
+	 *
 	 * This implementation creates a FileSystemResource, applying the given path
 	 * relative to the path of the underlying file of this resource descriptor.
 	 * @see org.springframework.util.StringUtils#applyRelativePath(String, String)
