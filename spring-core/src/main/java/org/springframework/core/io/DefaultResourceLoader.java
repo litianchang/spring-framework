@@ -56,6 +56,8 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 
 	/**
+	 * 默认使用Thread.currentThread()的getContextClassLoader()
+	 *
 	 * Create a new DefaultResourceLoader.
 	 * <p>ClassLoader access will happen using the thread context class loader
 	 * at the time of this ResourceLoader's initialization.
@@ -98,6 +100,8 @@ public class DefaultResourceLoader implements ResourceLoader {
 	}
 
 	/**
+	 * 添加用户自定义的ProtocolResolve
+	 *
 	 * Register the given resolver with this resource loader, allowing for
 	 * additional protocols to be handled.
 	 * <p>Any such resolver will be invoked ahead of this loader's standard
@@ -140,6 +144,11 @@ public class DefaultResourceLoader implements ResourceLoader {
 	}
 
 
+	/**
+	 * 封装了Resource对该方法的核心实现
+	 * @param location the resource location
+	 * @return
+	 */
 	@Override
 	public Resource getResource(String location) {
 		Assert.notNull(location, "Location must not be null");
@@ -151,20 +160,28 @@ public class DefaultResourceLoader implements ResourceLoader {
 			}
 		}
 
+		//判断是否是以"/"开头的资源
 		if (location.startsWith("/")) {
+			//返回ClassPathContextResource类型的Resource
 			return getResourceByPath(location);
 		}
+		//判断是否是以"classpath:"开头的资源
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
+			//返回ClassPathResource类型的Resource
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
 			try {
 				// Try to parse the location as a URL...
 				URL url = new URL(location);
+				//判断是否是文件url类型的资源，若不是，返回UrlResource类型的资源
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
 				// No URL -> resolve as resource path.
+				// 不是url类型，返回ClassPathContextResource类型的Resource
+				// 此处会有个问题，如果是通过文件系统的地址获取Resource，则无法获取到FileSystemResource
+				// 需要使用FileSystemResourceLoader
 				return getResourceByPath(location);
 			}
 		}
@@ -187,6 +204,9 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 
 	/**
+	 * 与ClassPathResource的区别是，未提供带有Class参数的构造方法，无法基于传入Class的方式通过指定的Class类加载器
+	 * 查找资源
+	 *
 	 * ClassPathResource that explicitly expresses a context-relative path
 	 * through implementing the ContextResource interface.
 	 */

@@ -30,6 +30,9 @@ package org.springframework.core.io;
 public interface ContextResource extends Resource {
 
 	/**
+	 * 返回包含在上下文中的路径
+	 * 通常是相对于上下文特定的根目录的路径
+	 *
 	 * Return the path within the enclosing 'context'.
 	 * <p>This is typically path relative to a context-specific root directory,
 	 * e.g. a ServletContext root or a PortletContext root.

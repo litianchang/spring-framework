@@ -20,6 +20,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 根据传入的class，在class所在包或者其子包下加载资源
+ *
  * {@link ResourceLoader} implementation that interprets plain resource paths
  * as relative to a given {@code java.lang.Class}.
  *

@@ -56,6 +56,8 @@ public class FileSystemResourceLoader extends DefaultResourceLoader {
 
 
 	/**
+	 * 该类是用于实现ContextResource#getPathWithinContext()方法，返回在上下文中的地址
+	 *
 	 * FileSystemResource that explicitly expresses a context-relative path
 	 * through implementing the ContextResource interface.
 	 */
