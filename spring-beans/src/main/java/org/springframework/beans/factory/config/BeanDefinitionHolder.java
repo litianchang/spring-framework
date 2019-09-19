@@ -43,6 +43,7 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	private final String beanName;
 
+	//spring bean的别名
 	@Nullable
 	private final String[] aliases;
 

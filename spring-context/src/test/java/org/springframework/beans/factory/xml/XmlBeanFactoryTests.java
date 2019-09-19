@@ -155,7 +155,9 @@ public class XmlBeanFactoryTests {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
 		reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
-		reader.loadBeanDefinitions(new EncodedResource(REFTYPES_CONTEXT, "ISO-8859-1"));
+		EncodedResource encodedResource = new EncodedResource(REFTYPES_CONTEXT, "ISO-8859-1");
+		reader.loadBeanDefinitions(encodedResource);
+		reader.loadBeanDefinitions(encodedResource);
 
 		TestBean jen = (TestBean) xbf.getBean("jenny");
 		TestBean dave = (TestBean) xbf.getBean("david");

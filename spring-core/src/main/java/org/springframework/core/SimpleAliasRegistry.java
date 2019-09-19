@@ -53,8 +53,10 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		Assert.hasText(alias, "'alias' must not be empty");
 		synchronized (this.aliasMap) {
 			if (alias.equals(name)) {
+				// 删除alias和name相同的bean
 				this.aliasMap.remove(alias);
 				if (logger.isDebugEnabled()) {
+					// 当alias和name命名相同时，会被忽略
 					logger.debug("Alias definition '" + alias + "' ignored since it points to same name");
 				}
 			}
@@ -62,9 +64,12 @@ public class SimpleAliasRegistry implements AliasRegistry {
 				String registeredName = this.aliasMap.get(alias);
 				if (registeredName != null) {
 					if (registeredName.equals(name)) {
+						// 已存在的alias，不需要重复注册
 						// An existing alias - no need to re-register
 						return;
 					}
+
+					// 默认允许alias覆盖
 					if (!allowAliasOverriding()) {
 						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
@@ -92,6 +97,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 确定给定的name是否注册了指定的alias
+	 *
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -190,6 +197,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 判断name和alias是否循环注册
+	 *
 	 * Check whether the given name points back to the given alias as an alias
 	 * in the other direction already, catching a circular reference upfront
 	 * and throwing a corresponding IllegalStateException.
@@ -199,6 +208,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 * @see #hasAlias
 	 */
 	protected void checkForAliasCircle(String name, String alias) {
+		// 正常应该传入(name,alias)判断是否存在以alias作为key的name。这里反向查找一下。查找是否存在以name为key注册的
+		// alias，防止循环注册
 		if (hasAlias(alias, name)) {
 			throw new IllegalStateException("Cannot register alias '" + alias +
 					"' for name '" + name + "': Circular reference - '" +
